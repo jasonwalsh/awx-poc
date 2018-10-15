@@ -1,0 +1,36 @@
+{
+  "builders": [
+    {
+      "ami_name": "{{ user `ami_name` }}",
+      "instance_type": "{{ user `instance_type` }}",
+      "region": "{{ user `region` }}",
+      "source_ami": "{{ user `source_ami` }}",
+      "source_ami_filter": {
+        "filters": {
+          "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+          "root-device-type": "ebs",
+          "virtualization-type": "hvm"
+        },
+        "most_recent": true,
+        "owners": [
+          "099720109477"
+        ]
+      },
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "type": "amazon-ebs"
+    }
+  ],
+  "provisioners": [
+    {
+      "playbook_file": "provisioning/playbook.yml",
+      "type": "ansible-local"
+    }
+  ],
+  "variables": {
+    "ami_name": "{{ timestamp }}",
+    "instance_type": "t2.micro",
+    "region": "us-east-1",
+    "ssh_username": "ubuntu"
+  }
+}
