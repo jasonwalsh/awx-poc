@@ -8,3 +8,8 @@
     version: "{{ item.version }}"
   with_items:
     - {"name": "docker-py", version: "1.10.6"}
+
+- name: Clone the awx repository
+  git:
+    dest: /tmp/awx
+    repo: https://github.com/ansible/awx.git

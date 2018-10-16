@@ -11,6 +11,7 @@
   command: "{{ response.dest }}"
   args:
     creates: /etc/apt/sources.list.d/nodesource.list
+  become: yes
 
 - name: Install required aptitude dependencies
   apt:
@@ -19,3 +20,4 @@
       - python3-pip
     state: present
     update_cache: yes
+  become: yes
