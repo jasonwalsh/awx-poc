@@ -4,6 +4,7 @@
       "ami_name": "{{ user `ami_name` }}",
       "instance_type": "{{ user `instance_type` }}",
       "region": "{{ user `region` }}",
+      "security_group_id": "{{ user `security_group_id` }}",
       "source_ami": "{{ user `source_ami` }}",
       "source_ami_filter": {
         "filters": {
@@ -16,13 +17,25 @@
           "099720109477"
         ]
       },
-      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_interface": "{{ user `ssh_interface` }}",
       "ssh_username": "{{ user `ssh_username` }}",
-      "type": "amazon-ebs"
+      "subnet_id": "{{ user `subnet_id` }}",
+      "type": "amazon-ebs",
+      "vpc_id": "{{ user `vpc_id` }}"
     }
   ],
   "provisioners": [
     {
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-add-repository -y ppa:ansible/ansible",
+        "sudo apt-get update",
+        "sudo apt-get install -y ansible"
+      ],
+      "type": "shell"
+    },
+    {
+      "galaxy_file": "provisioning/requirements.yml",
       "playbook_file": "provisioning/playbook.yml",
       "type": "ansible-local"
     }
