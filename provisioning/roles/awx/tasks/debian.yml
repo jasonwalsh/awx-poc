@@ -1,0 +1,21 @@
+---
+
+- name: Download Node.js 8.12.0 LTS
+  get_url:
+    dest: /tmp
+    mode: 0755
+    url: https://deb.nodesource.com/setup_8.x
+  register: response
+
+- name: Add Node.js 8.12.0 LTS to sources list
+  command: "{{ response.dest }}"
+  args:
+    creates: /etc/apt/sources.list.d/nodesource.list
+
+- name: Install required aptitude dependencies
+  apt:
+    name:
+      - nodejs
+      - python3-pip
+    state: present
+    update_cache: yes

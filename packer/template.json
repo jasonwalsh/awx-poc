@@ -36,6 +36,7 @@
     },
     {
       "galaxy_file": "provisioning/requirements.yml",
+      "playbook_dir": "provisioning",
       "playbook_file": "provisioning/playbook.yml",
       "type": "ansible-local"
     }

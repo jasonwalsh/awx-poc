@@ -3,4 +3,5 @@
 - become: yes
   hosts: all
   roles:
+    - awx
     - geerlingguy.docker
