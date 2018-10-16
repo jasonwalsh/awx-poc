@@ -13,7 +13,7 @@
   git:
     dest: /srv/awx
     repo: https://github.com/ansible/awx.git
-    version: HEAD
+    version: 8a763d6cf8087d8faf919b5116f0d0c20f3c179a
   become: yes
 
 - name: Add USER to docker group
