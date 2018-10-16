@@ -1,7 +1,11 @@
-before_script:
-  - packer validate packer/template.json
 install:
   - wget -O /tmp/packer.zip "https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip"
   - sudo unzip -o /tmp/packer.zip -d /usr/local/bin
-language: generic
+  - pip install ansible-lint
+language: python
+python:
+  - "3.6"
+script:
+  - packer validate packer/template.json
+  - ansible-lint provisioning/playbook.yml
 sudo: enabled
