@@ -1,0 +1,10 @@
+---
+
+- name: Install required Python dependencies
+  pip:
+    executable: /usr/bin/pip3
+    name: "{{ item.name }}"
+    state: present
+    version: "{{ item.version }}"
+  with_items:
+    - {"name": "docker-py", version: "1.10.6"}
