@@ -2,14 +2,23 @@
 
 - name: Install required Python dependencies
   pip:
-    executable: /usr/bin/pip3
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version }}"
   with_items:
-    - {"name": "docker-py", version: "1.10.6"}
+    - name: docker-py
+      version: 1.10.6
 
 - name: Clone the awx repository
   git:
-    dest: /tmp/awx
+    dest: /srv/awx
     repo: https://github.com/ansible/awx.git
+    version: HEAD
+  become: yes
+
+- name: Add USER to docker group
+  user:
+    group: docker
+    name: "{{ ansible_env.USER }}"
+    state: present
+  become: yes

@@ -3,8 +3,8 @@
 - hosts: all
   tasks:
     - include_role:
-        name: awx
-    - include_role:
         apply:
           become: yes
         name: geerlingguy.docker
+    - include_role:
+        name: awx
