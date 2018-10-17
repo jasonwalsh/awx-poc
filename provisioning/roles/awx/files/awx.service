@@ -1,0 +1,13 @@
+[Unit]
+After=docker.service
+Documentation=https://github.com/ansible/awx
+Wants=docker.service
+
+[Service]
+ExecStart=/usr/bin/ansible-playbook /srv/awx/installer/install.yml
+ExecStop=/usr/local/bin/docker-compose -f /var/lib/awx/docker-compose.yml down -v
+RemainAfterExit=yes
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

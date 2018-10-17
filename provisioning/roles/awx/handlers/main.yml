@@ -1,0 +1,8 @@
+---
+
+- name: restart awx
+  systemd:
+    enabled: yes
+    name: awx
+    state: restarted
+  become: yes

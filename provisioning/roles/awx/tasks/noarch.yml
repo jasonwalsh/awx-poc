@@ -1,13 +1,23 @@
 ---
 
+- name: Add USER to docker group
+  user:
+    group: docker
+    name: "{{ ansible_env.USER }}"
+    state: present
+  become: yes
+
 - name: Install required Python dependencies
   pip:
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version }}"
+  become: yes
   with_items:
-    - name: docker-py
-      version: 1.10.6
+    - name: docker
+      version: 3.5.0
+    - name: docker-compose
+      version: 1.22.0
 
 - name: Clone the awx repository
   git:
@@ -16,9 +26,10 @@
     version: 8a763d6cf8087d8faf919b5116f0d0c20f3c179a
   become: yes
 
-- name: Add USER to docker group
-  user:
-    group: docker
-    name: "{{ ansible_env.USER }}"
-    state: present
+- name: Copy the awx inventory file
+  copy:
+    dest: /etc/ansible/hosts
+    src: inventory
   become: yes
+  notify:
+    - restart awx

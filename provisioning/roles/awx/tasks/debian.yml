@@ -21,3 +21,9 @@
     state: present
     update_cache: yes
   become: yes
+
+- name: Copy the awx unit file
+  copy:
+    dest: /etc/systemd/system/awx.service
+    src: awx.service
+  become: yes
