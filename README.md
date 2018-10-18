@@ -12,6 +12,7 @@
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 - [Continuous Integration](#continuous-integration)
+- [License](#license)
 
 ## Ansible AWX
 
@@ -41,6 +42,15 @@ If the command exits with a zero status code, then an Ansible AWX is running and
 
 **Note:** If the web page returns an `ERR_EMPTY_RESPONSE` message, please be patient, as the service may still be starting. If the service fails to start, please refer to the [troubleshooting](#troubleshooting) section.
 
+After rendering the web page, authenticate by using `admin` for the username and `password` for the password.
+
+<p align="center">
+    <img width="1552" src="https://user-images.githubusercontent.com/2184329/47095511-6d90c200-d1fb-11e8-9e24-c6d72378e463.png">
+    <em>Figure 1 Login Page</em>
+    <img width="1552" src="https://user-images.githubusercontent.com/2184329/47095512-6d90c200-d1fb-11e8-9f6c-7e02a947ba5a.png">
+    <em>Figure 2 Dashboard Page</em>
+</p>
+
 ## Troubleshooting
 
 If the `awx` service fails to start, then checking the logs may yield some useful information. The awx service is a `systemd` managed service, and its logs are queryable using `journalctl`.
@@ -61,11 +71,19 @@ Once connected to the virtual machine, invoke the following commands:
 
 ## Testing
 
+This project uses Ansible [Molecule](https://molecule.readthedocs.io/en/latest/) to test the `awx` role. Testing the `awx` role requires the following dependencies:
+
+- [molecule](https://pypi.org/project/molecule/)
+- [docker](https://pypi.org/project/docker/)
+
+After installing the required pip dependencies, visit the [awx](provisioning/roles/awx) directory and invoke the following command:
+
+    $ molecule test
+
 ## Continuous Integration
 
 This project uses [Travis CI](https://travis-ci.com/) for testing. The [.travis.yml](.travis.yml) file contains scripts executed per build.
 
-<p align="center">
-    <img width="1552" src="https://user-images.githubusercontent.com/2184329/47095511-6d90c200-d1fb-11e8-9e24-c6d72378e463.png">
-    <img width="1552" src="https://user-images.githubusercontent.com/2184329/47095512-6d90c200-d1fb-11e8-9f6c-7e02a947ba5a.png">
-</p>
+## License
+
+MIT &copy; [Jason Walsh](https://github.com/jasonwalsh)
