@@ -25,6 +25,7 @@ This project requires the following software:
 - [Vagrant](https://www.vagrantup.com/)
 - [Packer](https://packer.io/)
 - [Terraform](https://www.terraform.io/)
+- [VirtualBox](https://www.virtualbox.org/) (if using Vagrant)
 
 ## Usage
 
@@ -44,16 +45,23 @@ If the command exits with a zero status code, then an Ansible AWX is running and
 
 After rendering the web page, authenticate by using `admin` for the username and `password` for the password.
 
+| <img src="https://user-images.githubusercontent.com/2184329/47095511-6d90c200-d1fb-11e8-9e24-c6d72378e463.png"> | <img src="https://user-images.githubusercontent.com/2184329/47095512-6d90c200-d1fb-11e8-9f6c-7e02a947ba5a.png"> |
+|:---------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|
+| Figure 1 Login Page                                                                                             | Figure 2 Dashboard Page                                                                                         |
+
+### Production
+
+The production environment uses a combination of [Packer](https://packer.io/) and [Terraform](https://www.terraform.io/), both developed by HashiCorp.
+
 <p align="center">
-    <img width="1552" src="https://user-images.githubusercontent.com/2184329/47095511-6d90c200-d1fb-11e8-9e24-c6d72378e463.png">
-    <em>Figure 1 Login Page</em>
-    <img width="1552" src="https://user-images.githubusercontent.com/2184329/47095512-6d90c200-d1fb-11e8-9f6c-7e02a947ba5a.png">
-    <em>Figure 2 Dashboard Page</em>
+    <img src="docs/cloudcraft.svg">
 </p>
 
 ## Troubleshooting
 
-If the `awx` service fails to start, then checking the logs may yield some useful information. The awx service is a `systemd` managed service, and its logs are queryable using `journalctl`.
+> The problem with troubleshooting is that trouble shoots back - Unknown Author
+
+If the `awx` service fails to start, then checking the logs may yield some useful information. The `awx` service is a `systemd` managed service, and its logs are queryable using `journalctl`.
 
 If using Vagrant, connect to the virtual machine using SSH:
 
@@ -61,13 +69,13 @@ If using Vagrant, connect to the virtual machine using SSH:
 
 Once connected to the virtual machine, invoke the following commands:
 
-> To check the status of the awx service:
+> To check the status of the `awx` service:
 
-	$ sudo systemctl status awx
+    $ sudo systemctl status awx
 
 > To check the logs of the awx service:
 
-	$ sudo journalctl -xeu awx
+    $ sudo journalctl -xeu awx
 
 ## Testing
 
