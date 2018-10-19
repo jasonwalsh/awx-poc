@@ -24,6 +24,12 @@
       "vpc_id": "{{ user `vpc_id` }}"
     }
   ],
+  "post-processors": [
+    {
+      "strip_path": true,
+      "type": "manifest"
+    }
+  ],
   "provisioners": [
     {
       "inline": [
