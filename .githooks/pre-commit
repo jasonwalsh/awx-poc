@@ -1,0 +1,20 @@
+#!/bin/sh
+
+panic() {
+  echo "$1"
+  exit 1
+}
+
+softwares="packer terraform"
+
+for software in $softwares
+do
+  if [ -z "$(command -v "$software")" ]
+  then
+    panic "$software: No such file or directory"
+  fi
+done
+
+"$(command -v terraform)" fmt
+
+exit "$?"

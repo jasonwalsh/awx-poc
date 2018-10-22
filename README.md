@@ -11,6 +11,7 @@
   - [Production](#production)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
+- [Development](#development)
 - [Continuous Integration](#continuous-integration)
 - [License](#license)
 
@@ -87,6 +88,13 @@ This project uses Ansible [Molecule](https://molecule.readthedocs.io/en/latest/)
 After installing the required pip dependencies, visit the [awx](provisioning/roles/awx) directory and invoke the following command:
 
     $ molecule test
+
+## Development
+
+To contribute to this repository, invoke the following commands:
+
+    $ git clone git@github.com:jasonwalsh/awx-poc.git
+    $ make init
 
 ## Continuous Integration
 
