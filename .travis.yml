@@ -9,4 +9,5 @@ python:
 script:
   - packer validate packer/template.json
   - ansible-lint provisioning/playbook.yml
+  - terraform fmt -check=true
 sudo: enabled
