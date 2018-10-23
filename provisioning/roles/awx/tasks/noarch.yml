@@ -27,7 +27,7 @@
   become: yes
 
 - name: Copy the awx inventory file
-  copy:
+  template:
     dest: /etc/ansible/hosts
     src: inventory
   become: yes
