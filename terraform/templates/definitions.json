@@ -1,0 +1,13 @@
+[
+  {
+    "image": "ansible/awx_web",
+    "memory": 512,
+    "name": "awx_web",
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 8080
+      }
+    ]
+  }
+]
