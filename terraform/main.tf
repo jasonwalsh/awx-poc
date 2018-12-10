@@ -34,6 +34,17 @@ data "template_file" "file" {
   }
 }
 
+data "template_file" "awx_web" {
+  template = "${file("${path.module}/templates/definitions.json")}"
+
+  vars {
+    database_host     = "${aws_db_instance.db_instance.address}"
+    database_password = "${var.password}"
+    database_port     = "${aws_db_instance.db_instance.port}"
+    database_user     = "${aws_db_instance.db_instance.username}"
+  }
+}
+
 data "template_cloudinit_config" "cloudinit_config" {
   part {
     content = "${data.template_file.file.rendered}"
@@ -57,6 +68,28 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   }
 }
 
+resource "random_shuffle" "availability_zone" {
+  input        = ["${data.aws_availability_zones.available.names}"]
+  result_count = 1
+}
+
+resource "aws_db_instance" "db_instance" {
+  allocated_storage   = "${var.allocated_storage}"
+  availability_zone   = "${element(random_shuffle.availability_zone.result, 0)}"
+  engine              = "postgres"
+  identifier          = "${random_pet.pet.id}"
+  instance_class      = "${var.instance_class}"
+  name                = "awx"
+  password            = "${var.password}"
+  port                = 5432
+  publicly_accessible = false
+  username            = "awx"
+
+  vpc_security_group_ids = [
+    "${aws_security_group.db_instance.id}",
+  ]
+}
+
 resource "aws_ecr_repository" "ecr_repository" {
   name = "${random_pet.pet.id}"
 }
@@ -72,7 +105,7 @@ resource "aws_ecs_service" "awx_web" {
 
   load_balancer {
     container_name   = "awx_web"
-    container_port   = 8080
+    container_port   = 8052
     target_group_arn = "${aws_lb_target_group.lb_target_group.arn}"
   }
 
@@ -82,7 +115,7 @@ resource "aws_ecs_service" "awx_web" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  container_definitions = "${file("${path.module}/templates/definitions.json")}"
+  container_definitions = "${data.template_file.awx_web.rendered}"
   family                = "${random_pet.pet.id}"
 }
 
@@ -160,7 +193,7 @@ resource "aws_lb_listener" "lb_listener" {
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
-  port     = 8080
+  port     = 8052
   protocol = "HTTP"
   vpc_id   = "${data.aws_vpc.vpc.id}"
 
@@ -168,6 +201,15 @@ resource "aws_lb_target_group" "lb_target_group" {
 
   lifecycle {
     create_before_destroy = true
+  }
+}
+
+resource "aws_security_group" "db_instance" {
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 5342
+    protocol    = "TCP"
+    to_port     = 5342
   }
 }
 
@@ -190,9 +232,9 @@ resource "aws_security_group" "launch_configuration" {
 resource "aws_security_group" "security_group" {
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    from_port   = 8080
+    from_port   = 8052
     protocol    = "TCP"
-    to_port     = 8080
+    to_port     = 8052
   }
 }
 

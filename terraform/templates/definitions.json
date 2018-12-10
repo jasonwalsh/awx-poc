@@ -1,12 +1,30 @@
 [
   {
+    "environment": [
+      {
+        "name": "DATABASE_HOST",
+        "value": "${database_host}"
+      },
+      {
+        "name": "DATABASE_PASSWORD",
+        "value": "${database_password}"
+      },
+      {
+        "name": "DATABASE_PORT",
+        "value": "${database_port}"
+      },
+      {
+        "name": "DATABASE_USER",
+        "value": "${database_user}"
+      }
+    ],
     "image": "ansible/awx_web",
     "memory": 512,
     "name": "awx_web",
     "portMappings": [
       {
-        "containerPort": 8080,
-        "hostPort": 8080
+        "containerPort": 8052,
+        "hostPort": 8052
       }
     ]
   }
